@@ -1,0 +1,2631 @@
+{
+    "package": "GoogleCalendar",
+    "tagline": "GoogleCalendar API",
+    "description": "You can use the Google Calendar API to find and view public calendar events. If you're authorized, you can also access and modify private calendars and events on those calendars. Use the Google Calendar API to achieve deeper integration with Google Calendar. Mobile apps, Web apps, and other systems can create, display, or sync with Calendar data.",
+    "image": "https:\/\/logo.clearbit.com\/calendar.google.com",
+    "repo": "https:\/\/github.com\/RapidSoftwareSolutions\/Marketplace-GoogleCalendar-Package",
+    "keywords": [
+        "API",
+        "google",
+        "calendar"
+    ],
+    "accounts": {
+        "domain": "https:\/\/calendar.google.com",
+        "credentials": [
+            "clientId",
+            "clientSecret"
+        ]
+    },
+    "blocks": [
+        {
+            "name": "getAccessToken",
+            "description": "Exchange code for access token.",
+            "args": [
+                {
+                    "name": "clientId",
+                    "type": "credentials",
+                    "info": "The client ID that you obtain from the API Console, as described in Obtain OAuth 2.0 credentials.",
+                    "required": true,
+                    "vendorSchema": {
+                        "name": "client_id"
+                    }
+                },
+                {
+                    "name": "clientSecret",
+                    "type": "credentials",
+                    "info": "The client secret that you obtain from the API Console, as described in Obtain OAuth 2.0 credentials.",
+                    "required": true,
+                    "vendorSchema": {
+                        "name": "client_secret"
+                    }
+                },
+                {
+                    "name": "code",
+                    "type": "String",
+                    "info": "The authorization code that is returned from the initial request.",
+                    "required": true
+                },
+                {
+                    "name": "redirectUri",
+                    "type": "String",
+                    "info": "The URI that you specify in the API Console, as described in Set a redirect URI.",
+                    "required": true,
+                    "vendorSchema": {
+                        "name": "redirect_uri"
+                    }
+                },
+                {
+                    "name": "grantType",
+                    "type": "String",
+                    "info": "This field must contain a value of authorization_code, as defined in the OAuth 2.0 specification.",
+                    "required": true,
+                    "vendorSchema": {
+                        "name": "grant_type"
+                    }
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/oauth2\/v4\/token",
+                "method": "post",
+                "requestParameters": [
+                    {
+                        "type": "form_params",
+                        "parameters": [
+                            "code",
+                            "client_id",
+                            "client_secret",
+                            "redirect_uri",
+                            "grant_type"
+                        ]
+                    }
+                ]
+            },
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ]
+        },
+        {
+            "name": "deleteACL",
+            "description": "Deletes an access control rule.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.",
+                    "required": true
+                },
+                {
+                    "name": "ruleId",
+                    "type": "String",
+                    "info": "ACL rule identifier.",
+                    "required": true
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/acl\/{$data['ruleId']}",
+                "method": "delete",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                }
+            },
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ]
+        },
+        {
+            "name": "getSingleACL",
+            "description": "Returns an access control rule.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.",
+                    "required": true
+                },
+                {
+                    "name": "ruleId",
+                    "type": "String",
+                    "info": "ACL rule identifier.",
+                    "required": true
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/acl\/{$data['ruleId']}",
+                "method": "get",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                }
+            },
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ]
+        },
+        {
+            "name": "createACL",
+            "description": "Creates an access control rule.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.",
+                    "required": true
+                },
+                {
+                    "name": "role",
+                    "type": "Select",
+                    "options": [
+                        "none",
+                        "freeBusyReader",
+                        "reader",
+                        "writer",
+                        "owner"
+                    ],
+                    "info": "The role assigned to the scope. Possible values are: `none` - Provides no access. `freeBusyReader` - Provides read access to free\/busy information. `reader` - Provides read access to the calendar. Private events will appear to users with reader access, but event details will be hidden. `writer` - Provides read and write access to the calendar. Private events will appear to users with writer access, and event details will be visible. `owner` - Provides ownership of the calendar. This role has all of the permissions of the writer role with the additional ability to see and manipulate ACLs.",
+                    "required": true
+                },
+                {
+                    "name": "scopeType",
+                    "type": "Select",
+                    "options": [
+                        "default",
+                        "user",
+                        "group",
+                        "domain"
+                    ],
+                    "info": "The type of the scope. Possible values are: `default` - The public scope. This is the default value. `user` - Limits the scope to a single user. `group` - Limits the scope to a group. `domain` - Limits the scope to a domain.",
+                    "required": true
+                },
+                {
+                    "name": "scopeValue",
+                    "type": "String",
+                    "info": "The email address of a user or group, or the name of a domain, depending on the scope type. Omitted for type `default`.",
+                    "required": false
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/acl",
+                "method": "post",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "vendorFieldsStructure": [
+                    {
+                        "scope": {
+                            "type": "{scopeType}",
+                            "value": "{scopeValue}"
+                        }
+                    }
+                ],
+                "requestParameters": [
+                    {
+                        "type": "json",
+                        "parameters": [
+                            "role",
+                            "scope"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "getAllACLs",
+            "description": "Returns the rules in the access control list for the calendar. ",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.",
+                    "required": true
+                },
+                {
+                    "name": "maxResults",
+                    "type": "Number",
+                    "info": "Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries.",
+                    "required": false
+                },
+                {
+                    "name": "pageToken",
+                    "type": "String",
+                    "info": "Token specifying which result page to return.",
+                    "required": false
+                },
+                {
+                    "name": "showDeleted",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to include deleted ACLs in the result. Deleted ACLs are represented by role equal to `none`. Deleted ACLs will always be included if syncToken is provided. Optional. The default is False.",
+                    "required": false
+                },
+                {
+                    "name": "syncToken",
+                    "type": "String",
+                    "info": "Token obtained from the nextSyncToken field returned on the last page of results from the previous list request. ",
+                    "required": false
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/acl",
+                "method": "get",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "query",
+                        "parameters": [
+                            "maxResults",
+                            "pageToken",
+                            "showDeleted",
+                            "syncToken"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "updateACL",
+            "description": "Updates an access control rule. This method supports patch semantics.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.",
+                    "required": true
+                },
+                {
+                    "name": "ruleId",
+                    "type": "String",
+                    "info": "ACL rule identifier.",
+                    "required": true
+                },
+                {
+                    "name": "role",
+                    "type": "Select",
+                    "options": [
+                        "none",
+                        "freeBusyReader",
+                        "reader",
+                        "writer",
+                        "owner"
+                    ],
+                    "info": "The role assigned to the scope. Possible values are: `none` - Provides no access. `freeBusyReader` - Provides read access to free\/busy information. `reader` - Provides read access to the calendar. Private events will appear to users with reader access, but event details will be hidden. `writer` - Provides read and write access to the calendar. Private events will appear to users with writer access, and event details will be visible. `owner` - Provides ownership of the calendar. This role has all of the permissions of the writer role with the additional ability to see and manipulate ACLs.",
+                    "required": true
+                },
+                {
+                    "name": "scopeType",
+                    "type": "Select",
+                    "options": [
+                        "default",
+                        "user",
+                        "group",
+                        "domain"
+                    ],
+                    "info": "The type of the scope. Possible values are: `default` - The public scope. This is the default value. `user` - Limits the scope to a single user. `group` - Limits the scope to a group. `domain` - Limits the scope to a domain.",
+                    "required": true
+                },
+                {
+                    "name": "scopeValue",
+                    "type": "String",
+                    "info": "The email address of a user or group, or the name of a domain, depending on the scope type. Omitted for type `default`.",
+                    "required": false
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/acl\/{$data['ruleId']}",
+                "method": "patch",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "json",
+                        "parameters": [
+                            "role",
+                            "scope"
+                        ]
+                    }
+                ],
+                "vendorFieldsStructure": [
+                    {
+                        "scope": {
+                            "type": "{scopeType}",
+                            "value": "{scopeValue}"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "updateRule",
+            "description": "Updates an access control rule.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.",
+                    "required": true
+                },
+                {
+                    "name": "ruleId",
+                    "type": "String",
+                    "info": "ACL rule identifier.",
+                    "required": true
+                },
+                {
+                    "name": "role",
+                    "type": "Select",
+                    "options": [
+                        "none",
+                        "freeBusyReader",
+                        "reader",
+                        "writer",
+                        "owner"
+                    ],
+                    "info": "The role assigned to the scope. Possible values are: `none` - Provides no access. `freeBusyReader` - Provides read access to free\/busy information. `reader` - Provides read access to the calendar. Private events will appear to users with reader access, but event details will be hidden. `writer` - Provides read and write access to the calendar. Private events will appear to users with writer access, and event details will be visible. `owner` - Provides ownership of the calendar. This role has all of the permissions of the writer role with the additional ability to see and manipulate ACLs.",
+                    "required": true
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/acl\/{$data['ruleId']}",
+                "method": "put",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "json",
+                        "parameters": [
+                            "role"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "watchACL",
+            "description": "Watch for changes to ACL resources.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.",
+                    "required": true
+                },
+                {
+                    "name": "id",
+                    "type": "String",
+                    "info": "A UUID or similar unique string that identifies this channel.",
+                    "required": true
+                },
+                {
+                    "name": "token",
+                    "type": "String",
+                    "info": "An arbitrary string delivered to the target address with each notification delivered over this channel.",
+                    "required": false
+                },
+                {
+                    "name": "type",
+                    "type": "String",
+                    "info": "The type of delivery mechanism used for this channel.",
+                    "required": true
+                },
+                {
+                    "name": "address",
+                    "type": "String",
+                    "info": "The address where notifications are delivered for this channel.",
+                    "required": true
+                },
+                {
+                    "name": "ttl",
+                    "type": "String",
+                    "info": "The time-to-live in seconds for the notification channel. Default is 3600 seconds.",
+                    "required": true
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/acl\/watch",
+                "method": "post",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "json",
+                        "parameters": [
+                            "id",
+                            "token",
+                            "type",
+                            "address",
+                            "params"
+                        ]
+                    }
+                ],
+                "vendorFieldsStructure": [
+                    {
+                        "params": {
+                            "ttl": "{ttl}"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "deleteCalendarList",
+            "description": "Deletes an entry on the user's calendar list.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.",
+                    "required": true
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/users\/me\/calendarList\/{$data['calendarId']}",
+                "method": "delete",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                }
+            }
+        },
+        {
+            "name": "getCalendarList",
+            "description": "Returns an entry on the user's calendar list.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.",
+                    "required": true
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/users\/me\/calendarList\/{$data['calendarId']}",
+                "method": "get",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                }
+            }
+        },
+        {
+            "name": "createEntryToCalendarList",
+            "description": "Adds an entry to the user's calendar list.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "defaultReminders",
+                    "type": "Array",
+                    "info": "Default Reminders array",
+                    "required": true,
+                    "structure": [
+                        {
+                            "name": "method",
+                            "type": "Select",
+                            "options": [
+                                "email",
+                                "sms",
+                                "popup"
+                            ],
+                            "info": "The method used by this reminder. Possible values are: email, sms, popup",
+                            "required": true
+                        },
+                        {
+                            "name": "minutes",
+                            "type": "Number",
+                            "info": "Number of minutes before the start of the event when the reminder should trigger. Valid values are between 0 and 40320 (4 weeks in minutes).",
+                            "required": true
+                        }
+                    ]
+                },
+                {
+                    "name": "id",
+                    "type": "String",
+                    "info": "Identifier of the calendar.",
+                    "required": true
+                },
+                {
+                    "name": "colorRgbFormat",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to use the foregroundColor and backgroundColor fields to write the calendar colors (RGB). If this feature is used, the index-based colorId field will be set to the best matching option automatically. ",
+                    "required": false
+                },
+                {
+                    "name": "notifications",
+                    "type": "Array",
+                    "info": "Notifications",
+                    "required": true,
+                    "structure": [
+                        {
+                            "name": "method",
+                            "type": "Select",
+                            "options": [
+                                "email",
+                                "sms"
+                            ],
+                            "info": "The method used by this reminder. Possible values are: email, sms",
+                            "required": true
+                        },
+                        {
+                            "name": "type",
+                            "type": "Select",
+                            "options": [
+                                "eventCreation",
+                                "eventChange",
+                                "eventCancellation",
+                                "eventResponse",
+                                "agenda"
+                            ],
+                            "info": "The type of notification. Must be: `eventCreation`,`eventChange`,`eventCancellation`,`eventResponse`,`agenda`",
+                            "required": true
+                        }
+                    ]
+                },
+                {
+                    "name": "backgroundColor",
+                    "type": "String",
+                    "info": "The main color of the calendar in the hexadecimal format `#0088aa`. ",
+                    "required": false
+                },
+                {
+                    "name": "colorId",
+                    "type": "String",
+                    "info": "The color of the calendar.",
+                    "required": false
+                },
+                {
+                    "name": "defaultReminders",
+                    "type": "List",
+                    "info": "The default reminders that the authenticated user has for this calendar.",
+                    "required": false,
+                    "structure": {
+                        "name": "reminder",
+                        "type": "String",
+                        "info": "Single reminder"
+                    }
+                },
+                {
+                    "name": "foregroundColor",
+                    "type": "String",
+                    "info": "The foreground color of the calendar in the hexadecimal format.",
+                    "required": false
+                },
+                {
+                    "name": "hidden",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether the calendar has been hidden from the list.",
+                    "required": false
+                },
+                {
+                    "name": "selected",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether the calendar content shows up in the calendar UI.",
+                    "required": false
+                },
+                {
+                    "name": "summaryOverride",
+                    "type": "String",
+                    "info": "The summary that the authenticated user has set for this calendar.",
+                    "required": false
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/users\/me\/calendarList",
+                "method": "post",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "query",
+                        "parameters": [
+                            "colorRgbFormat"
+                        ]
+                    },
+                    {
+                        "type": "json",
+                        "parameters": [
+                            "defaultReminders",
+                            "id",
+                            "notificationSettings",
+                            "backgroundColor",
+                            "colorId",
+                            "defaultReminders",
+                            "foregroundColor",
+                            "hidden",
+                            "selected",
+                            "summaryOverride"
+                        ]
+                    }
+                ],
+                "vendorFieldsStructure": [
+                    {
+                        "notificationSettings": {
+                            "notifications": "{notifications}"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "getCalendarListEntry",
+            "description": "Returns entries on the user's calendar list.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "maxResults",
+                    "type": "Number",
+                    "info": "Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Optional.",
+                    "required": false
+                },
+                {
+                    "name": "minAccessRole",
+                    "type": "Select",
+                    "options": [
+                        "freeBusyReader",
+                        "owner",
+                        "reader",
+                        "writer"
+                    ],
+                    "info": "The minimum access role for the user in the returned entries. Optional. The default is no restriction. Must be: freeBusyReader,owner,reader,writer",
+                    "required": false
+                },
+                {
+                    "name": "pageToken",
+                    "type": "String",
+                    "info": "Token specifying which result page to return.",
+                    "required": false
+                },
+                {
+                    "name": "showDeleted",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to include deleted calendar list entries in the result. Optional. The default is False.",
+                    "required": false
+                },
+                {
+                    "name": "showHidden",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to show hidden entries. Optional. The default is False.",
+                    "required": false
+                },
+                {
+                    "name": "syncToken",
+                    "type": "String",
+                    "info": "Token obtained from the nextSyncToken field returned on the last page of results from the previous list request.",
+                    "required": false
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/users\/me\/calendarList",
+                "method": "get",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "query",
+                        "parameters": [
+                            "maxResults",
+                            "minAccessRole",
+                            "pageToken",
+                            "showDeleted",
+                            "showHidden",
+                            "syncToken"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "updateCalendarListEntry",
+            "description": "Updates an entry on the user's calendar list. This method supports patch semantics.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier.",
+                    "required": true
+                },
+                {
+                    "name": "defaultReminders",
+                    "type": "Array",
+                    "info": "Default Reminders array",
+                    "required": true,
+                    "structure": [
+                        {
+                            "name": "method",
+                            "type": "Select",
+                            "options": [
+                                "email",
+                                "sms",
+                                "popup"
+                            ],
+                            "info": "The method used by this reminder. Possible values are: email, sms, popup",
+                            "required": true
+                        },
+                        {
+                            "name": "minutes",
+                            "type": "Number",
+                            "info": "Number of minutes before the start of the event when the reminder should trigger. Valid values are between 0 and 40320 (4 weeks in minutes).",
+                            "required": true
+                        }
+                    ]
+                },
+                {
+                    "name": "id",
+                    "type": "String",
+                    "info": "Identifier of the calendar.",
+                    "required": true
+                },
+                {
+                    "name": "colorRgbFormat",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to use the foregroundColor and backgroundColor fields to write the calendar colors (RGB). If this feature is used, the index-based colorId field will be set to the best matching option automatically. ",
+                    "required": false
+                },
+                {
+                    "name": "notifications",
+                    "type": "Array",
+                    "info": "Notifications",
+                    "required": true,
+                    "structure": [
+                        {
+                            "name": "method",
+                            "type": "Select",
+                            "options": [
+                                "email",
+                                "sms"
+                            ],
+                            "info": "The method used by this reminder. Possible values are: email, sms",
+                            "required": true
+                        },
+                        {
+                            "name": "type",
+                            "type": "Select",
+                            "options": [
+                                "eventCreation",
+                                "eventChange",
+                                "eventCancellation",
+                                "eventResponse",
+                                "agenda"
+                            ],
+                            "info": "The type of notification. Must be: `eventCreation`,`eventChange`,`eventCancellation`,`eventResponse`,`agenda`",
+                            "required": true
+                        }
+                    ]
+                },
+                {
+                    "name": "backgroundColor",
+                    "type": "String",
+                    "info": "The main color of the calendar in the hexadecimal format `#0088aa`. ",
+                    "required": false
+                },
+                {
+                    "name": "colorId",
+                    "type": "String",
+                    "info": "The color of the calendar.",
+                    "required": false
+                },
+                {
+                    "name": "defaultReminders",
+                    "type": "List",
+                    "info": "The default reminders that the authenticated user has for this calendar.",
+                    "required": false,
+                    "structure": {
+                        "name": "reminder",
+                        "type": "String",
+                        "info": "Single reminder"
+                    }
+                },
+                {
+                    "name": "foregroundColor",
+                    "type": "String",
+                    "info": "The foreground color of the calendar in the hexadecimal format.",
+                    "required": false
+                },
+                {
+                    "name": "hidden",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether the calendar has been hidden from the list.",
+                    "required": false
+                },
+                {
+                    "name": "selected",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether the calendar content shows up in the calendar UI.",
+                    "required": false
+                },
+                {
+                    "name": "summaryOverride",
+                    "type": "String",
+                    "info": "The summary that the authenticated user has set for this calendar.",
+                    "required": false
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/users\/me\/calendarList\/{$data['calendarId']}",
+                "method": "patch",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "query",
+                        "parameters": [
+                            "colorRgbFormat"
+                        ]
+                    },
+                    {
+                        "type": "json",
+                        "parameters": [
+                            "defaultReminders",
+                            "id",
+                            "notificationSettings",
+                            "backgroundColor",
+                            "colorId",
+                            "defaultReminders",
+                            "foregroundColor",
+                            "hidden",
+                            "selected",
+                            "summaryOverride"
+                        ]
+                    }
+                ],
+                "vendorFieldsStructure": [
+                    {
+                        "notificationSettings": {
+                            "notifications": "{notifications}"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "watchCalendarList",
+            "description": "Watch for changes to CalendarList resources.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "id",
+                    "type": "String",
+                    "info": "A UUID or similar unique string that identifies this channel.",
+                    "required": true
+                },
+                {
+                    "name": "token",
+                    "type": "String",
+                    "info": "An arbitrary string delivered to the target address with each notification delivered over this channel.",
+                    "required": false
+                },
+                {
+                    "name": "type",
+                    "type": "String",
+                    "info": "The type of delivery mechanism used for this channel.",
+                    "required": true
+                },
+                {
+                    "name": "address",
+                    "type": "String",
+                    "info": "The address where notifications are delivered for this channel.",
+                    "required": true
+                },
+                {
+                    "name": "ttl",
+                    "type": "String",
+                    "info": "The time-to-live in seconds for the notification channel. Default is 3600 seconds.",
+                    "required": true
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/users\/me\/calendarList\/watch",
+                "method": "post",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "json",
+                        "parameters": [
+                            "id",
+                            "token",
+                            "type",
+                            "address",
+                            "params"
+                        ]
+                    }
+                ],
+                "vendorFieldsStructure": [
+                    {
+                        "params": {
+                            "ttl": "{ttl}"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "clearCalendar",
+            "description": "Clears a primary calendar. This operation deletes all events associated with the primary calendar of an account.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.",
+                    "required": true
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/clear",
+                "method": "post",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                }
+            }
+        },
+        {
+            "name": "deleteCalendar",
+            "description": "Deletes a secondary calendar. Use calendars.clear for clearing all events on primary calendars.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.",
+                    "required": true
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}",
+                "method": "delete",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                }
+            }
+        },
+        {
+            "name": "getCalendarMetadata",
+            "description": "Returns metadata for a calendar.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.",
+                    "required": true
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}",
+                "method": "get",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                }
+            }
+        },
+        {
+            "name": "createCalendar",
+            "description": "Creates a secondary calendar.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "summary",
+                    "type": "String",
+                    "info": "Title of the calendar.",
+                    "required": true
+                },
+                {
+                    "name": "description",
+                    "type": "String",
+                    "info": "Description of the calendar.",
+                    "required": false
+                },
+                {
+                    "name": "etag",
+                    "type": "String",
+                    "info": "ETag of the resource.",
+                    "required": false
+                },
+                {
+                    "name": "kind",
+                    "type": "String",
+                    "info": "Type of the resource (`calendar#calendar`).",
+                    "required": false
+                },
+                {
+                    "name": "location",
+                    "type": "String",
+                    "info": "Geographic location of the calendar as free-form text.",
+                    "required": false
+                },
+                {
+                    "name": "timeZone",
+                    "type": "String",
+                    "info": "The time zone of the calendar.",
+                    "required": false
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars",
+                "method": "post",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "json",
+                        "parameters": [
+                            "summary",
+                            "description",
+                            "etag",
+                            "kind",
+                            "location",
+                            "timeZone"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "updateCalendar",
+            "description": "Updates metadata for a calendar. This method supports patch semantics.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier.",
+                    "required": true
+                },
+                {
+                    "name": "summary",
+                    "type": "String",
+                    "info": "Title of the calendar.",
+                    "required": false
+                },
+                {
+                    "name": "description",
+                    "type": "String",
+                    "info": "Description of the calendar.",
+                    "required": false
+                },
+                {
+                    "name": "etag",
+                    "type": "String",
+                    "info": "ETag of the resource.",
+                    "required": false
+                },
+                {
+                    "name": "kind",
+                    "type": "String",
+                    "info": "Type of the resource (`calendar#calendar`).",
+                    "required": false
+                },
+                {
+                    "name": "location",
+                    "type": "String",
+                    "info": "Geographic location of the calendar as free-form text.",
+                    "required": false
+                },
+                {
+                    "name": "timeZone",
+                    "type": "String",
+                    "info": "The time zone of the calendar.",
+                    "required": false
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}",
+                "method": "post",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "json",
+                        "parameters": [
+                            "summary",
+                            "description",
+                            "etag",
+                            "kind",
+                            "location",
+                            "timeZone"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "stopChannel",
+            "description": "Stop watching resources through this channel. ",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "id",
+                    "type": "String",
+                    "info": "A UUID or similar unique string that identifies this channel.",
+                    "required": true
+                },
+                {
+                    "name": "resourceId",
+                    "type": "String",
+                    "info": "An opaque ID that identifies the resource being watched on this channel. Stable across different API versions.",
+                    "required": true
+                },
+                {
+                    "name": "token",
+                    "type": "String",
+                    "info": "An arbitrary string delivered to the target address with each notification delivered over this channel.",
+                    "required": false
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/channels\/stop",
+                "method": "post",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "json",
+                        "parameters": [
+                            "id",
+                            "resourceId",
+                            "token"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "getColorDefinitions",
+            "description": "Returns the color definitions for calendars and events.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/colors",
+                "method": "get",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                }
+            }
+        },
+        {
+            "name": "deleteEvent",
+            "description": "Deletes an event.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier.",
+                    "required": true
+                },
+                {
+                    "name": "eventId",
+                    "type": "String",
+                    "info": "Event identifier.",
+                    "required": true
+                },
+                {
+                    "name": "sendNotifications",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to send notifications about the deletion of the event. Boolean.",
+                    "required": true
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/events\/{$data['eventId']}",
+                "method": "delete",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "query",
+                        "parameters": [
+                            "sendNotifications"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "getEvent",
+            "description": "Deletes an event.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier.",
+                    "required": true
+                },
+                {
+                    "name": "eventId",
+                    "type": "String",
+                    "info": "Event identifier.",
+                    "required": true
+                },
+                {
+                    "name": "alwaysIncludeEmail",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to always include a value in the email field for the organizer, creator and attendees, even if no real email is available (i.e. a generated, non-working value will be provided). Boolean.",
+                    "required": false
+                },
+                {
+                    "name": "maxAttendees",
+                    "type": "Number",
+                    "info": "The maximum number of attendees to include in the response. If there are more than the specified number of attendees, only the participant is returned.",
+                    "required": false
+                },
+                {
+                    "name": "timeZone",
+                    "type": "String",
+                    "info": "Time zone used in the response.",
+                    "required": false
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/events\/{$data['eventId']}",
+                "method": "get",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "query",
+                        "parameters": [
+                            "alwaysIncludeEmail",
+                            "maxAttendees",
+                            "timeZone"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "importEvent",
+            "description": "Imports an event. This operation is used to add a private copy of an existing event to a calendar.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier.",
+                    "required": true
+                },
+                {
+                    "name": "eventObject",
+                    "type": "JSON",
+                    "info": "Event resources.",
+                    "required": true
+                },
+                {
+                    "name": "maxAttendees",
+                    "type": "Number",
+                    "info": "The maximum number of attendees to include in the response. If there are more than the specified number of attendees, only the participant is returned.",
+                    "required": false
+                },
+                {
+                    "name": "sendNotifications",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to send notifications about the creation of the new event. ",
+                    "required": false
+                },
+                {
+                    "name": "supportsAttachments",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether API client performing operation supports event attachments. ",
+                    "required": false
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/events",
+                "method": "post",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "query",
+                        "parameters": [
+                            "maxAttendees",
+                            "sendNotifications",
+                            "supportsAttachments"
+                        ]
+                    },
+                    {
+                        "type": "json",
+                        "parameters": [
+                            "eventObject"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "getEventInstances",
+            "description": "Returns instances of the specified recurring event.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier.",
+                    "required": true
+                },
+                {
+                    "name": "eventId",
+                    "type": "String",
+                    "info": "Recurring event identifier.",
+                    "required": true
+                },
+                {
+                    "name": "alwaysIncludeEmail",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to always include a value in the email field for the organizer, creator and attendees, even if no real email is available (i.e. a generated, non-working value will be provided). The use of this option is discouraged and should only be used by clients which cannot handle the absence of an email address value in the mentioned places. The default is False.",
+                    "required": false
+                },
+                {
+                    "name": "maxAttendees",
+                    "type": "Number",
+                    "info": "The maximum number of attendees to include in the response. If there are more than the specified number of attendees, only the participant is returned.",
+                    "required": false
+                },
+                {
+                    "name": "maxResults",
+                    "type": "Number",
+                    "info": "Maximum number of events returned on one result page. By default the value is 250 events. The page size can never be larger than 2500 events.",
+                    "required": false
+                },
+                {
+                    "name": "originalStart",
+                    "type": "String",
+                    "info": "The original start time of the instance in the result.",
+                    "required": false
+                },
+                {
+                    "name": "pageToken",
+                    "type": "String",
+                    "info": "Token specifying which result page to return.",
+                    "required": false
+                },
+                {
+                    "name": "showDeleted",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to include deleted events (with status equals `cancelled`) in the result. Cancelled instances of recurring events will still be included if singleEvents is False.",
+                    "required": false
+                },
+                {
+                    "name": "timeMax",
+                    "type": "DatePicker",
+                    "info": "Upper bound (exclusive) for an event's start time to filter by. The default is not to filter by start time. Must be an RFC3339 timestamp with mandatory time zone offset.",
+                    "required": false,
+                    "vendorSchema": {
+                        "format": "toFormat:{Y-m-d\\TH:i:sP}"
+                    }
+                },
+                {
+                    "name": "timeMin",
+                    "type": "DatePicker",
+                    "info": "Lower bound (inclusive) for an event's end time to filter by. The default is not to filter by end time. Must be an RFC3339 timestamp with mandatory time zone offset.",
+                    "required": false,
+                    "vendorSchema": {
+                        "format": "toFormat:{Y-m-d\\TH:i:sP}"
+                    }
+                },
+                {
+                    "name": "timeZone",
+                    "type": "String",
+                    "info": "Time zone used in the response. The default is the time zone of the calendar.",
+                    "required": false
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/events\/{$data['eventId']}\/instances",
+                "method": "get",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "query",
+                        "parameters": [
+                            "alwaysIncludeEmail",
+                            "maxAttendees",
+                            "maxResults",
+                            "originalStart",
+                            "pageToken",
+                            "showDeleted",
+                            "timeMax",
+                            "timeMin",
+                            "timeZone"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "getCalendarEvents",
+            "description": "Returns instances of the specified recurring event.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier.",
+                    "required": true
+                },
+                {
+                    "name": "alwaysIncludeEmail",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to always include a value in the email field for the organizer, creator and attendees, even if no real email is available (i.e. a generated, non-working value will be provided). The use of this option is discouraged and should only be used by clients which cannot handle the absence of an email address value in the mentioned places. The default is False.",
+                    "required": false
+                },
+                {
+                    "name": "iCalUID",
+                    "type": "String",
+                    "info": "Specifies event ID in the iCalendar format to be included in the response.",
+                    "required": false
+                },
+                {
+                    "name": "maxAttendees",
+                    "type": "Number",
+                    "info": "The maximum number of attendees to include in the response. If there are more than the specified number of attendees, only the participant is returned.",
+                    "required": false
+                },
+                {
+                    "name": "maxResults",
+                    "type": "Number",
+                    "info": "Maximum number of events returned on one result page. By default the value is 250 events. The page size can never be larger than 2500 events.",
+                    "required": false
+                },
+                {
+                    "name": "orderBy",
+                    "type": "Select",
+                    "options": [
+                        "startTime",
+                        "updated"
+                    ],
+                    "info": "The order of the events returned in the result. Must be: startTime, updated",
+                    "required": false
+                },
+                {
+                    "name": "pageToken",
+                    "type": "String",
+                    "info": "Token specifying which result page to return.",
+                    "required": false
+                },
+                {
+                    "name": "privateExtendedProperty",
+                    "type": "String",
+                    "info": "Extended properties constraint specified as propertyName=value. Matches only private properties. This parameter might be repeated multiple times to return events that match all given constraints.",
+                    "required": false
+                },
+                {
+                    "name": "query",
+                    "type": "String",
+                    "info": "Free text search terms to find events that match these terms in any field, except for extended properties.",
+                    "required": false,
+                    "vendorSchema": {
+                        "name": "q"
+                    }
+                },
+                {
+                    "name": "sharedExtendedProperty",
+                    "type": "String",
+                    "info": "Extended properties constraint specified as propertyName=value. Matches only shared properties. This parameter might be repeated multiple times to return events that match all given constraints.",
+                    "required": false
+                },
+                {
+                    "name": "showDeleted",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to include deleted events (with status equals `cancelled`) in the result. Cancelled instances of recurring events will still be included if singleEvents is False.",
+                    "required": false
+                },
+                {
+                    "name": "showHiddenInvitations",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to include hidden invitations in the result. ",
+                    "required": false
+                },
+                {
+                    "name": "singleEvents",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to expand recurring events into instances and only return single one-off events and instances of recurring events, but not the underlying recurring events themselves.",
+                    "required": false
+                },
+                {
+                    "name": "timeMax",
+                    "type": "DatePicker",
+                    "info": "Upper bound (exclusive) for an event's start time to filter by. The default is not to filter by start time. Must be an RFC3339 timestamp with mandatory time zone offset.",
+                    "required": false,
+                    "vendorSchema": {
+                        "format": "toFormat:{Y-m-d\\TH:i:sP}"
+                    }
+                },
+                {
+                    "name": "timeMin",
+                    "type": "DatePicker",
+                    "info": "Lower bound (inclusive) for an event's end time to filter by. The default is not to filter by end time. Must be an RFC3339 timestamp with mandatory time zone offset.",
+                    "required": false,
+                    "vendorSchema": {
+                        "format": "toFormat:{Y-m-d\\TH:i:sP}"
+                    }
+                },
+                {
+                    "name": "timeZone",
+                    "type": "String",
+                    "info": "Time zone used in the response. The default is the time zone of the calendar.",
+                    "required": false
+                },
+                {
+                    "name": "updatedMin",
+                    "type": "DatePicker",
+                    "info": "Lower bound for an event's last modification time (as a RFC3339 timestamp) to filter by.",
+                    "required": false,
+                    "vendorSchema": {
+                        "format": "toFormat:{Y-m-d\\TH:i:sP}"
+                    }
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/events\/{$data['eventId']}\/instances",
+                "method": "get",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "query",
+                        "parameters": [
+                            "alwaysIncludeEmail",
+                            "iCalUID",
+                            "maxAttendees",
+                            "maxResults",
+                            "orderBy",
+                            "pageToken",
+                            "privateExtendedProperty",
+                            "q",
+                            "sharedExtendedProperty",
+                            "showDeleted",
+                            "showHiddenInvitations",
+                            "singleEvents",
+                            "timeMax",
+                            "timeMin",
+                            "timeZone",
+                            "updatedMin"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "moveEvent",
+            "description": "Moves an event to another calendar, i.e. changes an event's organizer.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier.",
+                    "required": true
+                },
+                {
+                    "name": "eventId",
+                    "type": "String",
+                    "info": "Event identifier.",
+                    "required": true
+                },
+                {
+                    "name": "destination",
+                    "type": "String",
+                    "info": "Calendar identifier of the target calendar where the event is to be moved to.",
+                    "required": true
+                },
+                {
+                    "name": "sendNotifications",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to send notifications about the change of the event's organizer. ",
+                    "required": false
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/events\/{$data['eventId']}\/move",
+                "method": "post",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "query",
+                        "parameters": [
+                            "destination",
+                            "sendNotifications"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "updateEvent",
+            "description": "Updates an event. This method supports patch semantics.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier.",
+                    "required": true
+                },
+                {
+                    "name": "eventId",
+                    "type": "String",
+                    "info": "Event identifier.",
+                    "required": true
+                },
+                {
+                    "name": "alwaysIncludeEmail",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to always include a value in the email field for the organizer, creator and attendees, even if no real email is available (i.e. a generated, non-working value will be provided). The use of this option is discouraged and should only be used by clients which cannot handle the absence of an email address value in the mentioned places. The default is False.",
+                    "required": false
+                },
+                {
+                    "name": "maxAttendees",
+                    "type": "Number",
+                    "info": "The maximum number of attendees to include in the response. If there are more than the specified number of attendees, only the participant is returned.",
+                    "required": false
+                },
+                {
+                    "name": "sendNotifications",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to send notifications about the change of the event's organizer. ",
+                    "required": false
+                },
+                {
+                    "name": "supportsAttachments",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether API client performing operation supports event attachments.",
+                    "required": false
+                },
+                {
+                    "name": "eventObject",
+                    "type": "JSON",
+                    "info": "Event resources.",
+                    "required": true
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/events\/{$data['eventId']}\/move",
+                "method": "patch",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "query",
+                        "parameters": [
+                            "alwaysIncludeEmail",
+                            "maxAttendees",
+                            "sendNotifications",
+                            "supportsAttachments"
+                        ]
+                    },
+                    {
+                        "type": "json",
+                        "parameters": [
+                            "eventObject"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "createSimpleEvent",
+            "description": "Updates an event. This method supports patch semantics.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier.",
+                    "required": true
+                },
+                {
+                    "name": "text",
+                    "type": "String",
+                    "info": "The text describing the event to be created.",
+                    "required": true
+                },
+                {
+                    "name": "sendNotifications",
+                    "type": "Select",
+                    "options": [
+                        "true",
+                        "false"
+                    ],
+                    "info": "Whether to send notifications about the change of the event's organizer. ",
+                    "required": false
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/events\/quickAdd",
+                "method": "post",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "query",
+                        "parameters": [
+                            "text",
+                            "sendNotifications"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "watchEventChanges",
+            "description": "Watch for changes to Events resources. ",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "calendarId",
+                    "type": "String",
+                    "info": "Calendar identifier.",
+                    "required": true
+                },
+                {
+                    "name": "id",
+                    "type": "String",
+                    "info": "A UUID or similar unique string that identifies this channel.",
+                    "required": true
+                },
+                {
+                    "name": "token",
+                    "type": "String",
+                    "info": "An arbitrary string delivered to the target address with each notification delivered over this channel.",
+                    "required": false
+                },
+                {
+                    "name": "type",
+                    "type": "String",
+                    "info": "The type of delivery mechanism used for this channel.",
+                    "required": true
+                },
+                {
+                    "name": "address",
+                    "type": "String",
+                    "info": "The address where notifications are delivered for this channel.",
+                    "required": true
+                },
+                {
+                    "name": "ttl",
+                    "type": "String",
+                    "info": "The time-to-live in seconds for the notification channel. Default is 3600 seconds.",
+                    "required": true
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/events\/watch",
+                "method": "post",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "json",
+                        "parameters": [
+                            "id",
+                            "token",
+                            "type",
+                            "address",
+                            "params"
+                        ]
+                    }
+                ],
+                "vendorFieldsStructure": [
+                    {
+                        "params": {
+                            "ttl": "{ttl}"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "getFreebusyInformation",
+            "description": "Returns free\/busy information for a set of calendars.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "timeMax",
+                    "type": "DatePicker",
+                    "info": "Upper bound (exclusive) for an event's start time to filter by. The default is not to filter by start time. Must be an RFC3339 timestamp with mandatory time zone offset.",
+                    "required": true,
+                    "vendorSchema": {
+                        "format": "toFormat:{Y-m-d\\TH:i:sP}"
+                    }
+                },
+                {
+                    "name": "timeMin",
+                    "type": "DatePicker",
+                    "info": "Lower bound (inclusive) for an event's end time to filter by. The default is not to filter by end time. Must be an RFC3339 timestamp with mandatory time zone offset.",
+                    "required": true,
+                    "vendorSchema": {
+                        "format": "toFormat:{Y-m-d\\TH:i:sP}"
+                    }
+                },
+                {
+                    "name": "timeZone",
+                    "type": "String",
+                    "info": "Time zone used in the response. The default is the time zone of the calendar.",
+                    "required": true
+                },
+                {
+                    "name": "groupExpansionMax",
+                    "type": "Number",
+                    "info": "Maximal number of calendar identifiers to be provided for a single group. An error will be returned for a group with more members than this value.",
+                    "required": true
+                },
+                {
+                    "name": "calendarExpansionMax",
+                    "type": "Number",
+                    "info": "Maximal number of calendars for which FreeBusy information is to be provided.",
+                    "required": true
+                },
+                {
+                    "name": "items",
+                    "type": "Array",
+                    "info": "List of calendars and\/or groups to query.",
+                    "required": true,
+                    "structure": [
+                        {
+                            "name": "id",
+                            "type": "String",
+                            "info": "The identifier of a calendar or a group.",
+                            "required": true
+                        }
+                    ]
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/freeBusy",
+                "method": "post",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "json",
+                        "parameters": [
+                            "timeMax",
+                            "timeMin",
+                            "timeZone",
+                            "groupExpansionMax",
+                            "calendarExpansionMax",
+                            "items"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "getSingleUserSettings",
+            "description": "Returns a single user setting.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "setting",
+                    "type": "String",
+                    "info": "The id of the user setting.",
+                    "required": true
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/users\/me\/settings\/{$data['setting']}",
+                "method": "get",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                }
+            }
+        },
+        {
+            "name": "getAllSettings",
+            "description": "Returns all user settings for the authenticated user.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "maxResults",
+                    "type": "Number",
+                    "info": "Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries.",
+                    "required": false
+                },
+                {
+                    "name": "pageToken",
+                    "type": "String",
+                    "info": "Token specifying which result page to return.",
+                    "required": false
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/users\/me\/settings",
+                "method": "get",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "query",
+                        "parameters": [
+                            "maxResults",
+                            "pageToken"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "name": "watchSettingsChanges",
+            "description": "Watch for changes to Settings resources.",
+            "args": [
+                {
+                    "name": "accessToken",
+                    "type": "String",
+                    "info": "OAuth 2.0 token for the current user.",
+                    "required": true
+                },
+                {
+                    "name": "id",
+                    "type": "String",
+                    "info": "A UUID or similar unique string that identifies this channel.",
+                    "required": true
+                },
+                {
+                    "name": "token",
+                    "type": "String",
+                    "info": "An arbitrary string delivered to the target address with each notification delivered over this channel.",
+                    "required": false
+                },
+                {
+                    "name": "type",
+                    "type": "String",
+                    "info": "The type of delivery mechanism used for this channel.",
+                    "required": true
+                },
+                {
+                    "name": "address",
+                    "type": "String",
+                    "info": "The address where notifications are delivered for this channel.",
+                    "required": true
+                },
+                {
+                    "name": "ttl",
+                    "type": "String",
+                    "info": "The time-to-live in seconds for the notification channel. Default is 3600 seconds.",
+                    "required": true
+                }
+            ],
+            "callbacks": [
+                {
+                    "name": "error",
+                    "info": "Error"
+                },
+                {
+                    "name": "success",
+                    "info": "Success"
+                }
+            ],
+            "vendorRequest": {
+                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/users\/me\/settings\/watch",
+                "method": "post",
+                "headers": {
+                    "Authorization": "Bearer {$data['accessToken']}"
+                },
+                "requestParameters": [
+                    {
+                        "type": "json",
+                        "parameters": [
+                            "id",
+                            "token",
+                            "type",
+                            "address",
+                            "params"
+                        ]
+                    }
+                ],
+                "vendorFieldsStructure": [
+                    {
+                        "params": {
+                            "ttl": "{ttl}"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
