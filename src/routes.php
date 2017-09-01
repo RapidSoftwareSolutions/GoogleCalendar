@@ -7,7 +7,6 @@ $routes = [
     'createACL',
     'getAllACLs',
     'updateACL',
-    'updateRule',
     'watchACL',
     'deleteCalendarList',
     'getCalendarList',

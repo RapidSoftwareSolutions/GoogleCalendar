@@ -4,7 +4,7 @@ $app->post('/api/GoogleCalendar/updateCalendarListEntry', function ($request, $r
 
     $settings = $this->settings;
     $checkRequest = $this->validation;
-    $validateRes = $checkRequest->validate($request, ['accessToken','calendarId','defaultReminders','id','notifications']);
+    $validateRes = $checkRequest->validate($request, ['accessToken','calendarId','defaultReminders','notifications']);
 
     if(!empty($validateRes) && isset($validateRes['callback']) && $validateRes['callback']=='error') {
         return $response->withHeader('Content-type', 'application/json')->withStatus(200)->withJson($validateRes);
@@ -16,7 +16,7 @@ $app->post('/api/GoogleCalendar/updateCalendarListEntry', function ($request, $r
     $optionalParams = ['colorRgbFormat'=>'colorRgbFormat','backgroundColor'=>'backgroundColor','colorId'=>'colorId','defaultReminders'=>'defaultReminders','foregroundColor'=>'foregroundColor','hidden'=>'hidden','selected'=>'selected','summaryOverride'=>'summaryOverride'];
     $bodyParams = [
        'query' => ['colorRgbFormat'],
-       'json' => ['defaultReminders','id','notificationSettings','backgroundColor','colorId','defaultReminders','foregroundColor','hidden','selected','summaryOverride']
+       'json' => ['defaultReminders','notificationSettings','backgroundColor','colorId','defaultReminders','foregroundColor','hidden','selected','summaryOverride']
     ];
 
     $data = \Models\Params::createParams($requiredParams, $optionalParams, $post_data['args']);

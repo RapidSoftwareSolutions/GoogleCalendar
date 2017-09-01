@@ -420,68 +420,6 @@
             }
         },
         {
-            "name": "updateRule",
-            "description": "Updates an access control rule.",
-            "args": [
-                {
-                    "name": "accessToken",
-                    "type": "String",
-                    "info": "OAuth 2.0 token for the current user.",
-                    "required": true
-                },
-                {
-                    "name": "calendarId",
-                    "type": "String",
-                    "info": "Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.",
-                    "required": true
-                },
-                {
-                    "name": "ruleId",
-                    "type": "String",
-                    "info": "ACL rule identifier.",
-                    "required": true
-                },
-                {
-                    "name": "role",
-                    "type": "Select",
-                    "options": [
-                        "none",
-                        "freeBusyReader",
-                        "reader",
-                        "writer",
-                        "owner"
-                    ],
-                    "info": "The role assigned to the scope. Possible values are: `none` - Provides no access. `freeBusyReader` - Provides read access to free\/busy information. `reader` - Provides read access to the calendar. Private events will appear to users with reader access, but event details will be hidden. `writer` - Provides read and write access to the calendar. Private events will appear to users with writer access, and event details will be visible. `owner` - Provides ownership of the calendar. This role has all of the permissions of the writer role with the additional ability to see and manipulate ACLs.",
-                    "required": true
-                }
-            ],
-            "callbacks": [
-                {
-                    "name": "error",
-                    "info": "Error"
-                },
-                {
-                    "name": "success",
-                    "info": "Success"
-                }
-            ],
-            "vendorRequest": {
-                "url": "https:\/\/www.googleapis.com\/calendar\/v3\/calendars\/{$data['calendarId']}\/acl\/{$data['ruleId']}",
-                "method": "put",
-                "headers": {
-                    "Authorization": "Bearer {$data['accessToken']}"
-                },
-                "requestParameters": [
-                    {
-                        "type": "json",
-                        "parameters": [
-                            "role"
-                        ]
-                    }
-                ]
-            }
-        },
-        {
             "name": "watchACL",
             "description": "Watch for changes to ACL resources.",
             "args": [
@@ -953,12 +891,6 @@
                             "required": true
                         }
                     ]
-                },
-                {
-                    "name": "id",
-                    "type": "String",
-                    "info": "Identifier of the calendar.",
-                    "required": true
                 },
                 {
                     "name": "colorRgbFormat",

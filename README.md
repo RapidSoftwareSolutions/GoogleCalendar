@@ -94,16 +94,6 @@ Updates an access control rule. This method supports patch semantics.
 | scopeType  | Select| The type of the scope. Possible values are: `default` - The public scope. This is the default value. `user` - Limits the scope to a single user. `group` - Limits the scope to a group. `domain` - Limits the scope to a domain.
 | scopeValue | String| The email address of a user or group, or the name of a domain, depending on the scope type. Omitted for type `default`.
 
-## GoogleCalendar.updateRule
-Updates an access control rule.
-
-| Field      | Type  | Description
-|------------|-------|----------
-| accessToken| String| OAuth 2.0 token for the current user.
-| calendarId | String| Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.
-| ruleId     | String| ACL rule identifier.
-| role       | Select| The role assigned to the scope. Possible values are: `none` - Provides no access. `freeBusyReader` - Provides read access to free/busy information. `reader` - Provides read access to the calendar. Private events will appear to users with reader access, but event details will be hidden. `writer` - Provides read and write access to the calendar. Private events will appear to users with writer access, and event details will be visible. `owner` - Provides ownership of the calendar. This role has all of the permissions of the writer role with the additional ability to see and manipulate ACLs.
-
 ## GoogleCalendar.watchACL
 Watch for changes to ACL resources.
 
