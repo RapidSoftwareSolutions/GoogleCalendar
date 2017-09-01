@@ -20,10 +20,11 @@ $app->post('/api/GoogleCalendar/getFreebusyInformation', function ($request, $re
 
     $data = \Models\Params::createParams($requiredParams, $optionalParams, $post_data['args']);
 
+    $data['timeMax'] = \Models\Params::toFormat($data['timeMax'], 'Y-m-d\\TH:i:sP');
+    $data['timeMin'] = \Models\Params::toFormat($data['timeMin'], 'Y-m-d\\TH:i:sP');
+
     $client = $this->httpClient;
     $query_str = "https://www.googleapis.com/calendar/v3/freeBusy";
-
-    
 
     $requestParams = \Models\Params::createRequestBody($data, $bodyParams);
     $requestParams['headers'] = ["Authorization"=>"Bearer {$data['accessToken']}"];
