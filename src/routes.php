@@ -7,19 +7,16 @@ $routes = [
     'createACL',
     'getAllACLs',
     'updateACL',
-    'watchACL',
     'deleteCalendarList',
     'getCalendarList',
     'createEntryToCalendarList',
     'getCalendarListEntry',
     'updateCalendarListEntry',
-    'watchCalendarList',
     'clearCalendar',
     'deleteCalendar',
     'getCalendarMetadata',
     'createCalendar',
     'updateCalendar',
-    'stopChannel',
     'getColorDefinitions',
     'deleteEvent',
     'getEvent',
@@ -29,11 +26,9 @@ $routes = [
     'moveEvent',
     'updateEvent',
     'createSimpleEvent',
-    'watchEventChanges',
     'getFreebusyInformation',
     'getSingleUserSettings',
-    'getAllSettings',
-    'watchSettingsChanges'
+    'getAllSettings'
 ];
 foreach($routes as $file) {
     require __DIR__ . '/../src/routes/'.$file.'.php';

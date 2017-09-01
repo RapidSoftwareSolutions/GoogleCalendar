@@ -94,19 +94,6 @@ Updates an access control rule. This method supports patch semantics.
 | scopeType  | Select| The type of the scope. Possible values are: `default` - The public scope. This is the default value. `user` - Limits the scope to a single user. `group` - Limits the scope to a group. `domain` - Limits the scope to a domain.
 | scopeValue | String| The email address of a user or group, or the name of a domain, depending on the scope type. Omitted for type `default`.
 
-## GoogleCalendar.watchACL
-Watch for changes to ACL resources.
-
-| Field      | Type  | Description
-|------------|-------|----------
-| accessToken| String| OAuth 2.0 token for the current user.
-| calendarId | String| Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.
-| id         | String| A UUID or similar unique string that identifies this channel.
-| token      | String| An arbitrary string delivered to the target address with each notification delivered over this channel.
-| type       | String| The type of delivery mechanism used for this channel.
-| address    | String| The address where notifications are delivered for this channel.
-| ttl        | String| The time-to-live in seconds for the notification channel. Default is 3600 seconds.
-
 ## GoogleCalendar.deleteCalendarList
 Deletes an entry on the user's calendar list.
 
@@ -173,18 +160,6 @@ Updates an entry on the user's calendar list. This method supports patch semanti
 | selected        | Select| Whether the calendar content shows up in the calendar UI.
 | summaryOverride | String| The summary that the authenticated user has set for this calendar.
 
-## GoogleCalendar.watchCalendarList
-Watch for changes to CalendarList resources.
-
-| Field      | Type  | Description
-|------------|-------|----------
-| accessToken| String| OAuth 2.0 token for the current user.
-| id         | String| A UUID or similar unique string that identifies this channel.
-| token      | String| An arbitrary string delivered to the target address with each notification delivered over this channel.
-| type       | String| The type of delivery mechanism used for this channel.
-| address    | String| The address where notifications are delivered for this channel.
-| ttl        | String| The time-to-live in seconds for the notification channel. Default is 3600 seconds.
-
 ## GoogleCalendar.clearCalendar
 Clears a primary calendar. This operation deletes all events associated with the primary calendar of an account.
 
@@ -235,16 +210,6 @@ Updates metadata for a calendar. This method supports patch semantics.
 | kind       | String| Type of the resource (`calendar#calendar`).
 | location   | String| Geographic location of the calendar as free-form text.
 | timeZone   | String| The time zone of the calendar.
-
-## GoogleCalendar.stopChannel
-Stop watching resources through this channel. 
-
-| Field      | Type  | Description
-|------------|-------|----------
-| accessToken| String| OAuth 2.0 token for the current user.
-| id         | String| A UUID or similar unique string that identifies this channel.
-| resourceId | String| An opaque ID that identifies the resource being watched on this channel. Stable across different API versions.
-| token      | String| An arbitrary string delivered to the target address with each notification delivered over this channel.
 
 ## GoogleCalendar.getColorDefinitions
 Returns the color definitions for calendars and events.
@@ -364,19 +329,6 @@ Updates an event. This method supports patch semantics.
 | text             | String| The text describing the event to be created.
 | sendNotifications| Select| Whether to send notifications about the change of the event's organizer. 
 
-## GoogleCalendar.watchEventChanges
-Watch for changes to Events resources. 
-
-| Field      | Type  | Description
-|------------|-------|----------
-| accessToken| String| OAuth 2.0 token for the current user.
-| calendarId | String| Calendar identifier.
-| id         | String| A UUID or similar unique string that identifies this channel.
-| token      | String| An arbitrary string delivered to the target address with each notification delivered over this channel.
-| type       | String| The type of delivery mechanism used for this channel.
-| address    | String| The address where notifications are delivered for this channel.
-| ttl        | String| The time-to-live in seconds for the notification channel. Default is 3600 seconds.
-
 ## GoogleCalendar.getFreebusyInformation
 Returns free/busy information for a set of calendars.
 
@@ -406,16 +358,4 @@ Returns all user settings for the authenticated user.
 | accessToken| String| OAuth 2.0 token for the current user.
 | maxResults | Number| Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries.
 | pageToken  | String| Token specifying which result page to return.
-
-## GoogleCalendar.watchSettingsChanges
-Watch for changes to Settings resources.
-
-| Field      | Type  | Description
-|------------|-------|----------
-| accessToken| String| OAuth 2.0 token for the current user.
-| id         | String| A UUID or similar unique string that identifies this channel.
-| token      | String| An arbitrary string delivered to the target address with each notification delivered over this channel.
-| type       | String| The type of delivery mechanism used for this channel.
-| address    | String| The address where notifications are delivered for this channel.
-| ttl        | String| The time-to-live in seconds for the notification channel. Default is 3600 seconds.
 
