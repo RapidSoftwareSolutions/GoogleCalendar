@@ -46,4 +46,31 @@ class Params
         }
         return $requestBody;
     }
+
+    public static function toString($valueArray,$delimiter = ',')
+    {
+        if(!is_array($valueArray) || empty($valueArray))
+        {
+            return $valueArray;
+        }
+        $result = implode($delimiter,$valueArray);
+        return $result;
+    }
+
+    public static function toFormat($value,$format)
+    {
+        if(empty($value) || empty($format))
+        {
+            return $value;
+        }
+        $time = strtotime($value);
+        if(!$time)
+        {
+            return $value;
+        }
+        $date = new \DateTime($value);
+        $result = $date->format($format);
+        return $result;
+    }
+
 }

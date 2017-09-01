@@ -24,7 +24,9 @@ class Metadata
         "request",
         'method',
         'paramsType',
-        'bodyInclude'
+        'bodyInclude',
+        'vendorSchema',
+        'vendorRequest'
     ];
 
     /**
