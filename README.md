@@ -77,7 +77,7 @@ Returns the rules in the access control list for the calendar.
 |------------|-------|----------
 | accessToken| String| OAuth 2.0 token for the current user.
 | calendarId | String| Calendar identifier. To retrieve calendar IDs call the calendarList.list method. If you want to access the primary calendar of the currently logged in user, use the `primary` keyword.
-| maxResults | Number| Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries.
+| maxResults | Number| Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Works unstable.
 | pageToken  | String| Token specifying which result page to return.
 | showDeleted| Select| Whether to include deleted ACLs in the result. Deleted ACLs are represented by role equal to `none`. Deleted ACLs will always be included if syncToken is provided. Optional. The default is False.
 | syncToken  | String| Token obtained from the nextSyncToken field returned on the last page of results from the previous list request. 
@@ -229,7 +229,7 @@ Deletes an event.
 | sendNotifications| Select| Whether to send notifications about the deletion of the event. Boolean.
 
 ## GoogleCalendar.getEvent
-Deletes an event.
+Returns an event.
 
 | Field             | Type  | Description
 |-------------------|-------|----------
@@ -356,6 +356,6 @@ Returns all user settings for the authenticated user.
 | Field      | Type  | Description
 |------------|-------|----------
 | accessToken| String| OAuth 2.0 token for the current user.
-| maxResults | Number| Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries.
+| maxResults | Number| Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Works unstable.
 | pageToken  | String| Token specifying which result page to return.
 

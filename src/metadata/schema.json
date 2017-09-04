@@ -275,7 +275,7 @@
                 {
                     "name": "maxResults",
                     "type": "Number",
-                    "info": "Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries.",
+                    "info": "Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Works unstable.",
                     "required": false
                 },
                 {
@@ -1310,7 +1310,7 @@
         },
         {
             "name": "getEvent",
-            "description": "Deletes an event.",
+            "description": "Returns an event.",
             "args": [
                 {
                     "name": "accessToken",
@@ -2141,7 +2141,7 @@
                 {
                     "name": "maxResults",
                     "type": "Number",
-                    "info": "Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries.",
+                    "info": "Maximum number of entries returned on one result page. By default the value is 100 entries. The page size can never be larger than 250 entries. Works unstable.",
                     "required": false
                 },
                 {

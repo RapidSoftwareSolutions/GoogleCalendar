@@ -20,10 +20,16 @@ $app->post('/api/GoogleCalendar/getCalendarEvents', function ($request, $respons
 
     $data = \Models\Params::createParams($requiredParams, $optionalParams, $post_data['args']);
 
+    if(!empty($data['timeMax'])){
+        $data['timeMax'] = \Models\Params::toFormat($data['timeMax'], "Y-m-d\\TH:i:sP");
+    }
+    if(!empty($data['timeMin'])){
+        $data['timeMin'] = \Models\Params::toFormat($data['timeMin'], "Y-m-d\\TH:i:sP");
+    }
+
     $client = $this->httpClient;
     $query_str = "https://www.googleapis.com/calendar/v3/calendars/{$data['calendarId']}/events";
 
-    
 
     $requestParams = \Models\Params::createRequestBody($data, $bodyParams);
     $requestParams['headers'] = ["Authorization"=>"Bearer {$data['accessToken']}"];
