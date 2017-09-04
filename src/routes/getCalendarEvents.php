@@ -30,6 +30,7 @@ $app->post('/api/GoogleCalendar/getCalendarEvents', function ($request, $respons
         $data['updatedMin'] = \Models\Params::toFormat($data['updatedMin'], "Y-m-d\\TH:i:sP");
     }
 
+
     $client = $this->httpClient;
     $query_str = "https://www.googleapis.com/calendar/v3/calendars/{$data['calendarId']}/events";
 
