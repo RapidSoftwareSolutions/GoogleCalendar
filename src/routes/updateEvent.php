@@ -22,7 +22,7 @@ $app->post('/api/GoogleCalendar/updateEvent', function ($request, $response) {
     $data = \Models\Params::createParams($requiredParams, $optionalParams, $post_data['args']);
 
     $client = $this->httpClient;
-    $query_str = "https://www.googleapis.com/calendar/v3/calendars/{$data['calendarId']}/events/{$data['eventId']}/move";
+    $query_str = "https://www.googleapis.com/calendar/v3/calendars/{$data['calendarId']}/events/{$data['eventId']}";
 
     
 
