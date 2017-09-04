@@ -263,7 +263,7 @@ Returns instances of the specified recurring event.
 | alwaysIncludeEmail| Select    | Whether to always include a value in the email field for the organizer, creator and attendees, even if no real email is available (i.e. a generated, non-working value will be provided). The use of this option is discouraged and should only be used by clients which cannot handle the absence of an email address value in the mentioned places. The default is False.
 | maxAttendees      | Number    | The maximum number of attendees to include in the response. If there are more than the specified number of attendees, only the participant is returned.
 | maxResults        | Number    | Maximum number of events returned on one result page. By default the value is 250 events. The page size can never be larger than 2500 events.
-| originalStart     | String    | The original start time of the instance in the result.
+| originalStart     | DatePicker    | The original start time of the instance in the result.
 | pageToken         | String    | Token specifying which result page to return.
 | showDeleted       | Select    | Whether to include deleted events (with status equals `cancelled`) in the result. Cancelled instances of recurring events will still be included if singleEvents is False.
 | timeMax           | DatePicker| Upper bound (exclusive) for an event's start time to filter by. The default is not to filter by start time. Must be an RFC3339 timestamp with mandatory time zone offset.
