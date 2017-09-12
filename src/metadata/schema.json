@@ -16,6 +16,11 @@
             "clientSecret"
         ]
     },
+    "steps": [
+        "Obtain OAuth 2.0 credentials from the https://console.developers.google.com.",
+        "Get code parameter from this endpoint: https://accounts.google.com/o/oauth2/v2/auth. Read more on readme",
+        "Call getAccessToken method."
+    ],
     "blocks": [
         {
             "name": "getAccessToken",
